@@ -26,8 +26,25 @@ try {
         "hideCommunities",
         "hideAll",
         "hideNotifications",
+        "redirectOldReddit",
         "darkMode"
     ];
+
+    const checkOldRedditRedirect = () => {
+        if (window.location.hostname !== 'old.reddit.com') {
+            return;
+        }
+        browser.storage.sync.get('redirectOldReddit')
+            .then((data) => {
+                if (data.redirectOldReddit === true) {
+                    const newUrl = 'https://www.reddit.com' + window.location.pathname + window.location.search + window.location.hash;
+                    window.location.replace(newUrl);
+                }
+            })
+            .catch((error) => console.warn('Failed to check old reddit redirect setting:', error));
+    };
+
+    checkOldRedditRedirect();
 
     const SELECTORS = {
         homeFeed: "shreddit-feed",

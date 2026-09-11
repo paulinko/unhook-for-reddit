@@ -37,6 +37,7 @@ const STORAGE_KEYS = [
     "hideCommunities",
     "hideAll",
     "hideNotifications",
+    "redirectOldReddit",
     "darkMode"
 ];
 
@@ -62,7 +63,8 @@ const LOCK_STORAGE_KEYS = [
     "lock_hideRecentSubreddits",
     "lock_hideCommunities",
     "lock_hideAll",
-    "lock_hideNotifications"
+    "lock_hideNotifications",
+    "lock_redirectOldReddit"
 ];
 
 
@@ -89,7 +91,8 @@ const getSettingDisplayName = (settingId) => {
         hideRecentSubreddits: "Hide Recent Subreddits",
         hideCommunities: "Hide Communities",
         hideAll: "Hide r/All",
-        hideNotifications: "Hide Notifications"
+        hideNotifications: "Hide Notifications",
+        redirectOldReddit: "Redirect old.reddit.com to reddit.com"
     };
     return displayNames[settingId] || settingId;
 };
@@ -117,6 +120,7 @@ const hideRecentSubreddits = document.getElementById('hideRecentSubreddits');
 const hideCommunities = document.getElementById('hideCommunities');
 const hideAll = document.getElementById('hideAll');
 const hideNotifications = document.getElementById('hideNotifications');
+const redirectOldReddit = document.getElementById('redirectOldReddit');
 
 const sidebarSubOptions = document.querySelectorAll('.sidebar-sub-option');
 const searchSubOptions = document.querySelectorAll('.search-sub-option');
@@ -159,6 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
         hideCommunities.checked = data.hideCommunities || false;
         hideAll.checked = data.hideAll || false;
         hideNotifications.checked = data.hideNotifications || false;
+        redirectOldReddit.checked = data.redirectOldReddit || false;
 
         applyDarkMode(darkMode.checked);
         updateSubOptions(sidebarSubOptions, hideSideBar.checked);
@@ -193,7 +198,8 @@ let saveSettings = () => {
         hideRecentSubreddits: hideRecentSubreddits.checked,
         hideCommunities: hideCommunities.checked,
         hideAll: hideAll.checked,
-        hideNotifications: hideNotifications.checked
+        hideNotifications: hideNotifications.checked,
+        redirectOldReddit: redirectOldReddit.checked
     };
     browser.storage.sync.set(settings).catch((error) => {
         console.error('Error saving settings:', error);
@@ -232,7 +238,7 @@ const handleDarkModeToggle = () => {
 
 darkMode.addEventListener('change', handleDarkModeToggle);
 
-[hideHomeFeed, hideGallery, hideSubredditFeed, hideCommunityHighlights, hideGames, hideUpvoteCount, hideRecentPosts, hideSubredditInfo, hidePopularCommunities, hideTrending, hidePopular, hideExplore, hideCustomFeeds, hideRecentSubreddits, hideCommunities, hideAll, hideNotifications].forEach(setting => {
+[hideHomeFeed, hideGallery, hideSubredditFeed, hideCommunityHighlights, hideGames, hideUpvoteCount, hideRecentPosts, hideSubredditInfo, hidePopularCommunities, hideTrending, hidePopular, hideExplore, hideCustomFeeds, hideRecentSubreddits, hideCommunities, hideAll, hideNotifications, redirectOldReddit].forEach(setting => {
     setting.addEventListener('change', saveSettings);
 });
 
@@ -246,7 +252,7 @@ const addImmediateLockUpdates = () => {
     const settings = [
         hideHomeFeed, hideGallery, hideSubredditFeed, hideCommunityHighlights, hideSideBar, hideGames, hideComments, hideUpvotes, hideUpvoteCount,
         hideRightSidebar, hideRecentPosts, hideSubredditInfo, hidePopularCommunities, hideSearch, hideTrending, hidePopular, hideExplore,
-        hideCustomFeeds, hideRecentSubreddits, hideCommunities, hideAll, hideNotifications
+        hideCustomFeeds, hideRecentSubreddits, hideCommunities, hideAll, hideNotifications, redirectOldReddit
     ];
 
     settings.forEach(setting => {

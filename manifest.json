@@ -7,13 +7,15 @@
     "storage"
   ],
   "host_permissions": [
-    "*://www.reddit.com/*"
+    "*://www.reddit.com/*",
+    "*://old.reddit.com/*"
   ],
   "options_page": "options.html",
   "content_scripts": [
     {
       "matches": [
-        "*://www.reddit.com/*"
+        "*://www.reddit.com/*",
+        "*://old.reddit.com/*"
       ],
       "css": [
         "content.css"
